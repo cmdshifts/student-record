@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body class="flex flex-col justify-center items-center p-[20px] gap-2">
+    <h1 class="font-bold text-4xl select-none"><%= title %></h1>
+    <p class="text-2xl select-none"><%= description %></p>
+    <table class="table-fixed rounded-[5px] text-lg shadow-md">
+      <thead>
+        <tr
+          class="rounded-t-[5px] [&>th]:px-6 [&>th]:py-3 [&>th]:whitespace-nowrap w-full text-white font-bold select-none shadow-md"
+        >
+          <th class="bg-black rounded-tl-[5px]">Student ID</th>
+          <th class="bg-black">First Name</th>
+          <th class="bg-black">Last Name</th>
+          <th class="bg-black">Major</th>
+          <th class="bg-black rounded-tr-[5px]">Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (JSON.parse(data).length === 0) { %>
+        <tr>
+          <td colspan="5" class="text-center px-6 py-3">No data available</td>
+        </tr>
+        <% } else { %> <% JSON.parse(data).forEach((student) => { %>
+        <tr
+          class="[&>td]:px-4 [&>td]:py-2 [&>td]:text-center [&>td]:whitespace-nowrap w-full"
+        >
+          <td><%= student.std_id %></td>
+          <td><%= student.std_fname %></td>
+          <td><%= student.std_lname %></td>
+          <td><%= student.std_major %></td>
+          <td><%= student.std_year %></td>
+        </tr>
+        <% }) %> <% } %>
+      </tbody>
+    </table>
+    <span class="flex gap-2 font-bold select-none mt-[10px]">
+      <a
+        class="w-max px-4 py-3 bg-black text-white rounded-full shadow-sm"
+        href="/student"
+        >Insert</a
+      >
+    </span>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </body>
+</html>

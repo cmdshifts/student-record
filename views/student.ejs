@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="flex flex-col justify-center items-center p-[20px] gap-2">
+    <h1 class="font-bold text-4xl select-none"><%= title %></h1>
+    <p class="text-2xl select-none"><%= description %></p>
+    <form
+      role="form"
+      method="POST"
+      class="flex flex-col select-none [&>div>label]:font-bold [&>div>input]:w-full gap-4 [&>div>input]:border [&>div>input]:border-1px [&>div>input]:px-2 [&>div>input]:py-2 [&>div>input]:outline-black [&>div>input]:rounded-[5px]"
+    >
+      <div>
+        <label for="std_id"
+          >Student ID<span class="text-red font-bold">*</span></label
+        >
+        <input id="std_id" name="std_id" type="text" placeholder="Student ID" />
+      </div>
+      <div>
+        <label for="std_fname"
+          >First Name<span class="text-red font-bold">*</span></label
+        >
+        <input
+          id="std_fname"
+          name="std_fname"
+          type="text"
+          placeholder="First Name"
+        />
+      </div>
+      <div>
+        <label for="std_lname"
+          >Last Name<span class="text-red font-bold">*</span></label
+        >
+        <input
+          id="std_lname"
+          name="std_lname"
+          type="text"
+          placeholder="Last Name"
+        />
+      </div>
+      <div>
+        <label for="std_major"
+          >Major<span class="text-red font-bold">*</span></label
+        >
+        <input
+          id="std_major"
+          name="std_major"
+          type="text"
+          placeholder="Major"
+        />
+      </div>
+      <div>
+        <label for="std_year"
+          >Year<span class="text-red font-bold">*</span></label
+        >
+        <input id="std_year" name="std_year" type="number" placeholder="Year" />
+      </div>
+      <input
+        type="button"
+        value="Add"
+        class="bg-black text-white font-bold p-2 rounded-[5px] cursor-pointer"
+      />
+      <a
+        href="/"
+        class="w-full font-bold border border-3px border-black text-center p-2 rounded-[5px]"
+        >Back</a
+      >
+    </form>
+    <div id="result"></div>
+    <script>
+      $(document).ready(function () {
+        $('input[type="button"]').click(function () {
+          let id = $('#std_id').val()
+          let fname = $('#std_fname').val()
+          let lname = $('#std_lname').val()
+          let major = $('#std_major').val().substring(0, 2)
+          let year = $('#std_year').val()
+
+          let strRegex = /^.+$/
+          let yearRegex = /^[1-9]\d*$/
+
+          if (
+            strRegex.test(id) &&
+            strRegex.test(fname) &&
+            strRegex.test(lname) &&
+            strRegex.test(major) &&
+            yearRegex.test(year)
+          ) {
+            $.post(
+              `/student?id=${id}&fname=${fname}&lname=${lname}&major=${major}&year=${year}`,
+              function (data, status) {
+                $('#result').html('Successfully added to database!')
+              },
+            ).fail(function (xhr, status, error) {
+              $('#result').html('Error: Something went wrong.')
+            })
+          } else {
+            $('#result').html('Invalid input!')
+          }
+        })
+      })
+    </script>
+  </body>
+</html>
